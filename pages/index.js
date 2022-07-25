@@ -1,8 +1,22 @@
+import { useSession } from 'next-auth/react'
 import Head from 'next/head'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 export default function Home() {
+  const router = useRouter()
+  const { data: session, status } = useSession()
+
+  const loading = status === 'loading'
+
+  if (loading) {
+    return null
+  }
+
+  if (session) {
+    router.push('/members')
+  }
   return (
     <div>
       <Head>
@@ -22,7 +36,7 @@ export default function Home() {
         <p className='mt-10'>Just $5/m</p>
 
         <div className='mt-10'>
-          <Link href='#'>
+          <Link href='/api/auth/signin'>
             <a className='bg-black text-white px-5 py-2'>Become a supporter</a>
           </Link>
         </div>
