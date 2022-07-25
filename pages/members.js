@@ -17,5 +17,12 @@ export default function Members() {
     router.push('/')
     return
   }
+
+  if (!session.user.isSubscriber) {
+    router.push('/join')
+    return
+  }
+
+  console.log(session.user.isSubscriber)
   return <div>Member</div>
 }
