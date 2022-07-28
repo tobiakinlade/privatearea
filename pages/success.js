@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 
 export default function Success() {
   const router = useRouter()
@@ -11,7 +11,7 @@ export default function Success() {
 
   useEffect(() => {
     const call = async () => {
-      await fetch('/api/stripe/session', {
+      await fetch('/api/stripe/success', {
         method: 'POST',
         body: JSON.stringify({
           session_id,

@@ -1,8 +1,9 @@
 import React from 'react'
 import { useRouter } from 'next/router'
 import { useSession } from 'next-auth/react'
+import { getMarkdown } from 'lib/markdown'
 
-export default function Members() {
+export default function Members({ markdown }) {
   const router = useRouter()
 
   const { data: session, status } = useSession()
@@ -24,5 +25,15 @@ export default function Members() {
   }
 
   console.log(session.user.isSubscriber)
-  return <div>Member</div>
+  return <div dangerouslySetInnerHTML={{ __html: markdown }} />
+}
+
+export async function getServerSideProps(context) {
+  const markdown = await getMarkdown()
+
+  return {
+    props: {
+      markdown,
+    },
+  }
 }

@@ -6,7 +6,6 @@ export default async (req, res) => {
     res.status(405).end() // Method not allowed
     return
   }
-
   const session = await getSession({ req })
   if (!session) return res.status(401).json({ message: 'Not logged in' })
   const user = await prisma.user.findUnique({
@@ -16,7 +15,7 @@ export default async (req, res) => {
   if (!user) return res.status(401).json({ message: 'User not found' })
 
   const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
-  const stripe_session = await stripe.checkout.session.retrieve(
+  const stripe_session = await stripe.checkout.sessions.retrieve(
     req.body.session_id
   )
   await prisma.user.update({
