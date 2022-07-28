@@ -25,7 +25,9 @@ export default function Members({ markdown }) {
   }
 
   console.log(session.user.isSubscriber)
-  return <div dangerouslySetInnerHTML={{ __html: markdown }} />
+  return (
+    <div className='markdown' dangerouslySetInnerHTML={{ __html: markdown }} />
+  )
 }
 
 export async function getServerSideProps(context) {
