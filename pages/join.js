@@ -1,6 +1,6 @@
 import { useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
-import React from 'react'
+import Script from 'next/script'
 import Head from 'next/head'
 import { resolve } from 'styled-jsx/css'
 
@@ -20,6 +20,7 @@ export default function Join() {
   }
   return (
     <div>
+      <Script src='https://js.stripe.com/v3/' />
       <Head>
         <title>Private Area</title>
         <meta name='description' content='private area' />
@@ -35,6 +36,19 @@ export default function Join() {
               method: 'POST',
             })
             const data = await res.json()
+
+            if (data.status === 'error') {
+              alert(data.message)
+              return
+            }
+
+            const sessionId = data.sessionId
+            const stripePublicKey = data.stripePublicKey
+
+            const stripe = Stripe(stripePublicKey)
+            stripe.redirectToCheckout({
+              sessionId,
+            })
           }}
         >
           Create a subscription
